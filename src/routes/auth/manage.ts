@@ -6,8 +6,10 @@ import { assertCaptcha } from '@/services/captcha';
 import { handle } from '@/services/handler';
 import { makeRouter } from '@/services/router';
 import { makeSession, makeSessionToken } from '@/services/session';
-import { z } from 'zod';
 import { assertChallengeCode } from '@/services/challenge';
+import { StatusError } from '@/services/error';
+import { conf } from '@/config';
+import { z } from 'zod';
 
 const startSchema = z.object({
   captchaToken: z.string().optional(),
@@ -38,6 +40,11 @@ export const manageAuthRouter = makeRouter((app) => {
         max: 10,
         window: '10m',
       });
+
+      if (conf.server.disableRegistration) {
+        throw new StatusError('Registration is disabled', 400);
+      }
+
       await assertCaptcha(body.captchaToken);
 
       const challenge = new ChallengeCode();
@@ -61,6 +68,10 @@ export const manageAuthRouter = makeRouter((app) => {
         max: 10,
         window: '10m',
       });
+
+      if (conf.server.disableRegistration) {
+        throw new StatusError('Registration is disabled', 400);
+      }
 
       await assertChallengeCode(
         em,

@@ -29,6 +29,7 @@ export const metaRouter = makeRouter((app) => {
         version: version,
         hasCaptcha: conf.captcha.enabled,
         captchaClientKey: conf.captcha.clientKey,
+        registrationDisabled: conf.server.disableRegistration,
       };
     }),
   );

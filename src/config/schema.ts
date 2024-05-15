@@ -24,6 +24,9 @@ export const configSchema = z.object({
       // prefix for where the instance is run on. for example set it to /backend if you're hosting it on example.com/backend
       // if this is set, do not apply url rewriting before proxing
       basePath: z.string().default('/'),
+
+      // should the server allow new user registrations?
+      disableRegistration: booleanSchema.default(false),
     })
     .default({}),
   logging: z

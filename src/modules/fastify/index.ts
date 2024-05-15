@@ -13,7 +13,7 @@ import { StatusError } from '@/services/error';
 const log = scopedLogger('fastify');
 
 export async function setupFastify(): Promise<FastifyInstance> {
-  log.info(`setting up fastify...`, { evt: 'setup-start' });
+  log.info(`Setting up fastify...`, { evt: 'setup-start' });
   // create server
   const app = Fastify({
     logger: makeFastifyLogger(log) as any,
@@ -55,7 +55,7 @@ export async function setupFastify(): Promise<FastifyInstance> {
   });
 
   // plugins
-  log.info(`setting up plugins`, { evt: 'setup-plugins' });
+  log.info(`Setting up plugins`, { evt: 'setup-plugins' });
   const corsDomains = conf.server.cors.split(' ').filter((v) => v.length > 0);
   const corsSetting = conf.server.allowAnySite ? true : corsDomains;
   await app.register(cors, {
@@ -68,7 +68,7 @@ export async function setupFastify(): Promise<FastifyInstance> {
 
 export function startFastify(app: FastifyInstance) {
   // listen to port
-  log.info(`listening to port`, { evt: 'setup-listen' });
+  log.info(`Listening to port`, { evt: 'setup-listen' });
   return new Promise<void>((resolve) => {
     app.listen(
       {
@@ -83,7 +83,7 @@ export function startFastify(app: FastifyInstance) {
           });
           process.exit(1);
         }
-        log.info(`fastify setup successfully`, {
+        log.info(`Fastify setup successful`, {
           evt: 'setup-success',
         });
         resolve();
@@ -93,7 +93,7 @@ export function startFastify(app: FastifyInstance) {
 }
 
 export async function setupFastifyRoutes(app: FastifyInstance) {
-  log.info(`setting up routes`, { evt: 'setup-plugins' });
+  log.info(`Setting up routes`, { evt: 'setup-plugins' });
   await app.register(
     async (api, opts, done) => {
       setupRoutes(api);
